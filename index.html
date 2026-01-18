@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue City Tour</title>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. General Reset & Fonts --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Manrope', sans-serif; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+        
+        body {
+            background-color: #fefdff;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- 2. Header Styles --- */
+        .header-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            width: 95%;
+            max-width: 1200px;
+            height: 70px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: #E8ECF7 solid 1px;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        .nav-menu { display: flex; align-items: center; gap: 5px; }
+        .nav-link {
+            text-decoration: none; color: #001D3C; font-weight: 500; font-size: 15px;
+            padding: 12px 12px; border-radius: 30px; transition: all 0.3s ease;
+        }
+        .nav-link.active { background-color: #E1F1FF; color: #000; }
+        .nav-link:hover { color: #001D3C; background-color: #E0EFFF; }
+
+        .logo-section {
+            display: flex; align-items: center; gap: 10px;
+            position: absolute; left: 50%; transform: translateX(-50%);
+        }
+        .logo-icon img { height: 40px; width: auto; }
+
+        .right-section { display: flex; align-items: center; gap: 20px; }
+        .email-link {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: #333; font-size: 14px; font-weight: 500;
+        }
+        .email-icon { width: 18px; height: 18px; fill: #007BFF; }
+
+        .book-btn {
+            background-color: #007BFF; color: white; text-decoration: none;
+            display: flex; align-items: center; gap: 10px;
+            padding: 5px 6px 5px 20px; border-radius: 40px;
+            font-weight: 500; font-size: 15px; transition: background 0.3s;
+        }
+        .book-btn:hover { background-color: #0168D9; }
+
+        .btn-circle {
+            background-color: white; width: 38px; height: 38px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .arrow-icon { width: 20px; height: 20px; fill: #0168D9; }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 101; }
+        .bar { width: 25px; height: 3px; background-color: #333; border-radius: 5px; }
+
+        .mobile-menu-container {
+            display: none; position: absolute; top: 80px; left: 0; right: 0;
+            background-color: white; border-radius: 20px; padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            flex-direction: column; align-items: center; gap: 15px; width: 100%;
+        }
+
+        /* --- 3. Hero Section Styles --- */
+        .hero-section {
+            width: 100%; max-width: 100%; height: 900px;
+            position: relative; display: flex;
+            background-image: url("Assets/heroimage.jpg");
+            background-size: cover; background-position: center;
+            flex-direction: column; align-items: center;
+            color: #001D3C; overflow: hidden;
+        }
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(230,235,255,0.9) 0%, rgba(255,255,255,0) 50%);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative; z-index: 2; text-align: center; max-width: 800px;
+            display: flex; flex-direction: column; align-items: center; gap: 15px; padding-top: 130px;
+        }
+        .hero-tag {
+            background-color: white; padding: 8px 16px; border-radius: 20px;
+            font-size: 13px; font-weight: 700; color: #001D3C;
+            display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .dot { width: 8px; height: 8px; background-color: #007BFF; border-radius: 50%; }
+        .hero-title { font-size: 60px; font-weight: 600; line-height: 1.1; color: #001D3C; }
+        .hero-title span { font-family: 'Playfair Display', serif; color: #007BFF; font-weight: 700; font-style: italic; }
+        .hero-subtitle { font-size: 20px; color: #001D3C; max-width: 500px; line-height: 1.5; }
+
+        /* --- 4. About Section Styles --- */
+        .about-section {
+            width: 100%; max-width: 1200px; position: relative;
+            padding: 160px 20px 80px 20px; margin-top: -50px; z-index: 10;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .polaroid-container { position: absolute; top: 100px; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .polaroid-card { position: absolute; width: 300px; z-index: 1; }
+        .polaroid-card img { width: 100%; height: auto; border-radius: 2px; }
+        .p-left-top { top: 20px; left: 0; transform: rotate(-8deg); }
+        .p-right { top: 50px; right: 0; transform: rotate(6deg); }
+        .about-content { position: relative; z-index: 5; text-align: center; max-width: 650px; }
+        .about-pill {
+            display: inline-block; padding: 6px 16px; border: 1px solid #E0EFFF;
+            border-radius: 20px; font-size: 12px; font-weight: 700; color: #007BFF;
+            margin-bottom: 15px; background: #fff;
+        }
+        .about-title { font-size: 42px; font-weight: 700; color: #001D3C; line-height: 1.2; margin-bottom: 20px; }
+        .about-title .blue-italic { font-family: 'Playfair Display', serif; font-style: italic; color: #007BFF; font-weight: 600; }
+        .about-desc { font-size: 16px; color: #001D3C; line-height: 1.6; margin-bottom: 30px; }
+        .check-list { list-style: none; display: flex; flex-direction: column; gap: 12px; align-items: left; margin-bottom: 50px; margin-left: 10px; padding-left: 130px; }
+        .check-item { display: flex; align-items: center; gap: 10px; color: #333; font-weight: 500; font-size: 15px; }
+        .check-icon { width: 20px; height: 20px; background-color: #007BFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        
+        .features-wrapper { position: relative; width: 100%; max-width: 800px; margin-top: 60px; }
+        .yellow-tag {
+            background-color: #FFC107; color: #713F12; font-weight: 700; font-size: 14px;
+            padding: 8px 20px; border-radius: 8px; position: absolute;
+            top: -18px; left: 50%; transform: translateX(-50%); z-index: 6;
+            box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3); rotate: calc(5deg);
+        }
+        .features-box {
+            background-color: #FFF9F0; border-radius: 24px; padding: 50px 40px 40px 40px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+        }
+        .feature-item { display: flex; align-items: start; gap: 12px; }
+        .f-icon { width: 20px; height: 20px; fill: #007BFF; margin-top: 3px; flex-shrink: 0; }
+        .f-text h4 { font-size: 16px; color: #6B3B00; font-weight: 700; margin-bottom: 4px; }
+        .f-text p { font-size: 14px; color: #001D3C; opacity: 1; line-height: 1.4; font-weight: 500; }
+
+        /* --- 5. Host Section Styles --- */
+        .host-section {
+            width: 100%; max-width: 1200px; padding: 80px 20px; margin-top: 40px;
+            display: flex; justify-content: center;
+        }
+        .host-container { display: flex; align-items: center; gap: 60px; width: 100%; }
+        .host-image-wrapper { flex: 1; display: flex; justify-content: center; position: relative; }
+        .host-img {
+            width: 100%; max-width: 450px; height: auto;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; object-fit: cover;
+        }
+        .host-content { flex: 1.2; text-align: left; }
+        .host-stats {
+            display: flex; gap: 30px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .stat-item { padding-left: 12px; border-left: 2px solid #007BFF; }
+        .stat-item:first-child {  padding-left: 12px; border-left: 2px solid #007BFF; }
+        .stat-number { font-size: 18px; font-weight: 700; color: #007BFF; margin-bottom: 5px; }
+        .stat-label { font-size: 16px; color: #001D3C; font-weight: 600; }
+
+
+        /* --- 6. NEW ITINERARY SECTION STYLES --- */
+        .itinerary-section {
+            width: 100%;  /* Limits width to keep it looking like the image */
+            margin: 80px 0;
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            
+        }
+
+        .itinerary-header {
+            text-align: center; margin-bottom: 50px;
+        }
+        .itinerary-header h2 { font-size: 48px; font-weight: 600; color: #001D3C; }
+        .itinerary-header h2 span { font-family: 'Playfair Display', serif; color: #007BFF; font-style: italic; }
+        .itinerary-header p { color: #001D3C; font-size: 16px; margin-top: 5px; }
+
+        .timeline-container {
+            display: flex; flex-direction: column; align-items: center; width: 100%;
+        }
+
+        /* The Nodes (Start/End) */
+        .node-card {
+            background: white;
+            border: 1px solid #D9E0F2;
+            border-radius: 12px;
+            padding: 12px 25px 12px 12px;
+            display: flex; align-items: center; gap: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            width: 100%; max-width: 500px;
+            position: relative; z-index: 2;
+        }
+        
+        .node-icon-box {
+            width: 50px; height: 50px;
+            border-radius: 8px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: white; font-size: 10px; font-weight: 700;
+        }
+        .node-start { background-color: #E1F1FF; color: #007BFF; }
+        .node-start svg { fill: #007BFF; width: 24px; }
+        
+        .node-end { background-color: #22C55E; color: white; }
+        .node-end svg { fill: white; width: 24px; stroke: white; stroke-width: 2px; }
+
+        .node-text h4 { color: #007BFF; font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+        .node-text.end h4 { color: #22C55E; }
+        .node-text p { color: #001D3C; font-size: 14px; }
+        .node-text span { display: block; font-size: 12px; color: #666; margin-top: 2px; }
+
+        /* The Connector Line */
+        .timeline-connector {
+            width: 0px;
+            height: 40px;
+            border-left: 2px dashed #007BFF;
+            margin: 5px 0;
+            opacity: 0.5;
+        }
+
+        /* The Itinerary Card */
+        .t-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex; gap: 20px;
+            align-items: center;
+            width: 100%; max-width: 500px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            border: 1px solid #D9E0F2;
+            position: relative; z-index: 2;
+        }
+        .t-img {
+            width: 180px; height: 148px; ;
+            border-radius: 4px; overflow: hidden;
+            flex-shrink: 0;
+        }
+        .t-img img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .t-content { flex: 1; }
+        .t-title { font-size: 18px; font-weight: 700; color: #001D3C; margin-bottom: 5px; }
+        .t-desc { font-size: 14px; color: #002C5C; line-height: 1.4; margin-bottom: 10px; }
+        
+        .t-meta { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #002C5C; font-weight: 500; }
+        .t-meta svg { width: 14px; height: 14px; fill: #002C5C; }
+
+        /* --- 7. HIGHLIGHTS SECTION STYLES --- */
+        .highlights-section {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            height: 700px; /* Fixed height for the circular layout on desktop */
+            margin: 60px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Central Hub Text */
+        .highlights-center {
+            text-align: center;
+            z-index: 10;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* The Cards */
+        .h-card {
+            position: absolute;
+            background: #FFF7ED;
+            border: 1px solid #FFDFB8;
+            border-radius: 60px; /* Pill shape */
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 0px rgba(0,0,0,0.05);
+            width: 290px;
+            transition: transform 0.3s;
+            z-index: 2;
+        }
+        .h-card:hover { transform: scale(1.05); z-index: 20; }
+
+        .h-img-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid white;
+        }
+        .h-img-circle img { width: 100%; height: 100%; object-fit: cover; }
+
+        .h-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #001D3C;
+            padding-right: 15px;
+        }
+
+        /* Connecting Lines (Dashed) */
+        .h-card::before {
+            content: '';
+            position: absolute;
+            height: 1px;
+            background-image: linear-gradient(to right, #C49A6C 50%, transparent 50%);
+            background-size: 10px 100%; /* Dash size */
+            z-index: -1;
+            /* Default line settings, customized per card below */
+            top: 50%;
+            width: 120px; 
+            transform-origin: 0 0;
+        }
+
+        /* --- POSITIONS (Desktop) --- */
+        
+        /* Left Column */
+        .h-c1 { top: 60px; left: 60px;  } /* Blue City */
+        .h-c1::before { left: 100%; width: 200px; transform: rotate(40deg); border-color: ;}
+
+        .h-c2 { top: 300px; left: 0px; } /* Street Food */
+        .h-c2::before { left: 100%; width: 150px; transform: rotate(0deg); }
+
+        .h-c3 { bottom: 60px; left: 60px; } /* Markets */
+        .h-c3::before { left: 100%; width: 200px; transform: rotate(-40deg); }
+
+
+        /* Right Column (Cards flipped for better design) */
+        .h-c4 { top: 60px; right: 60px; flex-direction: row; text-align: right; } /* Fort */
+        .h-c4 .h-text { padding-right: 0; padding-left: 15px; }
+        .h-c4::before { right: 100%; width: 200px; transform-origin: 100% 0; transform: rotate(-40deg); }
+
+        .h-c5 { top: 300px; right: 0px; flex-direction: row; text-align: right; } /* Sunset */
+        .h-c5 .h-text { padding-right: 0; padding-left: 15px; }
+        .h-c5::before { right: 100%; width: 150px; transform-origin: 100% 0; transform: rotate(0deg); }
+
+        .h-c6 { bottom: 60px; right: 60px; flex-direction: row; text-align: right; } /* Temples */
+        .h-c6 .h-text { padding-right: 0; padding-left: 15px; }
+        .h-c6::before { right: 100%; width: 200px; transform-origin: 100% 0; transform: rotate(40deg); }
+
+        /* --- NEW EXPLORE SECTION (Dark Blue) --- */
+        
+        .explore-section {
+            width: 100%;
+            background-color: #021759; /* Deep Navy Blue */
+            padding: 100px 20px;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        
+        /* Dotted Map Background Pattern */
+        .explore-map-bg {
+            position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100%; max-width: 1200px; height: 100%;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+        
+        .explore-pill {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .explore-pill::before {
+            content: '●'; color: #007BFF; margin-right: 8px;
+        }
+        
+        .explore-header h2 { font-size: 56px; font-weight: 600; margin-bottom: 10px; }
+        .explore-header h2 span { font-family: 'Playfair Display', serif; font-style: italic; }
+        .explore-header p { font-size: 16px; opacity: 0.8; max-width: 600px; margin: 0 auto 60px auto; }
+        
+        /* Circular Cards Container */
+        .explore-grid {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            height: 600px; /* Fixed height for absolute layout */
+        }
+        
+        .ex-circle {
+            position: absolute;
+            border-radius: 50%;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .ex-circle:hover { transform: scale(1.05); border-color: rgba(255,255,255,0.5); }
+        .ex-circle img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .ex-label {
+            position: absolute;
+            bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 100%; text-align: center;
+            color: white; font-weight: 600; font-size: 16px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+        .ex-label span { color: #FFC107; font-size: 18px; } /* The yellow arrow */
+        
+        /* Positions */
+        .ex-1 { width: 320px; height: 320px; top: 50px; left: 50px; z-index: 2; } /* Ummed Bhawan */
+        .ex-2 { width: 300px; height: 300px; top: 0px; right: 300px; z-index: 3; } /* Mehrangarh */
+        .ex-3 { width: 280px; height: 280px; bottom: 0px; right: 100px; z-index: 2; } /* Jaswant Thada */
+        .ex-4 { width: 220px; height: 220px; bottom: 0px; left: 350px; z-index: 1; } /* Mandore */
+        .ex-5 { width: 140px; height: 140px; top: 150px; right: 50px; z-index: 1; } /* Small Circle 1 */
+        .ex-6 { width: 120px; height: 120px; bottom: 80px; left: 100px; z-index: 1; } /* Small Circle 2 */
+        .ex-7 { width: 110px; height: 110px; top: 180px; left: 450px; z-index: 0; } /* Small Circle 3 */
+
+        /* --- REVIEWS SECTION --- */
+        
+        .reviews-section {
+            width: 100%;
+            max-width: 1200px;
+            padding: 80px 20px;
+            margin: 40px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .reviews-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .reviews-header h2 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #001D3C;
+            margin-top: 15px;
+            line-height: 1.2;
+        }
+        
+        .reviews-header h2 span {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #007BFF; /* Bright Blue */
+            font-weight: 600;
+        }
+        
+        /* Review Grid */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+        
+        .review-card {
+            background-color: #EEF2FF; /* Very light blue background */
+            padding: 30px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stars {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .star-icon {
+            width: 30px;
+            height: 30px;
+            fill: #fde248; /* Yellow */
+        }
+        
+        .review-text {
+            font-size: 15px;
+            color: #002C5C;
+            line-height: 1.6;
+            flex-grow: 1; /* Pushes profile to bottom */
+        }
+        
+        .reviewer-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .reviewer-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .reviewer-info h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #001D3C;
+            margin: 0;
+        }
+        
+        .reviewer-info span {
+            font-size: 13px;
+            color: #001D3C;
+        }
+        
+        /* Buttons Area */
+        .review-actions {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .btn-outline {
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Write Review (Blue Outline) */
+        .btn-write {
+            border: 1px solid #007BFF;
+            color: #007BFF;
+            background: transparent;
+        }
+        .btn-write:hover {
+            background: #E1F1FF;
+        }
+        
+        /* View More (Blue Outline) */
+        .btn-view {
+            border: 1px solid #001D3C;
+            color: #001D3C;
+            background: transparent;
+        }
+        .btn-view:hover {
+            background: #f0f0f0;
+        }
+        
+        .icon-small {
+            width: 18px; height: 18px;
+        }
+
+        /* --- BOOKING SECTION --- */
+        
+        .booking-section {
+            position: relative;
+            width: 100%;
+            padding: 68px 0px;
+            /* Ensure you have a high-quality background image here */
+            background-image: url('Assets/contactimage.jpg');}
+            padding: 100px 0px;
+            display: flex;
+            justify-content: flex-start; /* Aligns content to the left like design */
+            align-items: center;
+            min-height: 800px;
+        }
+
+        
+        
+        /* Dark overlay to ensure text readability if image is too bright */
+        .booking-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            
+            z-index: 1;
+        }
+        
+        .booking-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        /* Typography */
+        .booking-heading {
+            color: #001D3C; /* Or White if background is dark, design shows dark text on light sky */
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.1;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.5); /* Helps readability on sky */
+        }
+        
+        .booking-heading span {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: #007BFF;
+        }
+        
+        .booking-sub {
+            font-size: 18px;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-shadow: 0 1px 5px rgba(255,255,255,0.8);
+        }
+        
+        /* The Frosted Glass Card */
+        .booking-card {
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 550px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 64.39%, rgba(255, 255, 255, 0.3) 129.14%);
+            border-width: 1px 1px 1px 1px;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .booking-pill {
+            display: inline-block;
+            border: 1px solid #007BFF;
+            color: #001D3C;
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            background: white;
+        }
+        .booking-pill::before {
+            content: '●'; color: #007BFF; margin-right: 8px;
+        }
+        
+        /* Stepper (The 1-2-3 Line) */
+        .stepper {
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* Gap handled by padding to accommodate line */
+        }
+        
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            position: relative;
+            padding-bottom: 30px; /* Space for the line */
+        }
+        
+        .step-item:last-child {
+            padding-bottom: 0;
+        }
+        
+        .step-num {
+            width: 28px;
+            height: 28px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            z-index: 2; /* Sit on top of line */
+        }
+        
+        /* The Vertical Line */
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 13px; /* Center of the 28px circle */
+            top: 28px;
+            bottom: 0;
+            width: 2px;
+            background-color: #D9E0F2;
+            z-index: 1;
+        }
+        
+        .step-text {
+            font-size: 15px;
+            color: #333;
+            font-weight: 500;
+            margin-top: 3px; /* Align with number */
+        }
+        
+        /* Bottom Contact Bar */
+        .contact-bar {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 64.39%, rgba(255, 255, 255, 0.3) 129.14%);
+            border-width: 1px 1px 1px 1px;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px 40px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            max-width: 550px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .c-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .c-label {
+            font-size: 12px;
+            color: #002C5C;
+            font-weight: 600;
+        }
+        
+        .c-value {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #001D3C;
+            text-decoration: none;
+        }
+        
+        .c-icon {
+            width: 20px;
+            height: 20px;
+            fill: #007BFF;
+        }
+
+        /* --- FOOTER SECTION --- */
+        
+        .footer-section {
+            background-color: #021652; /* Deep Navy */
+            width: 100%;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            
+            margin-top: 0; /* Connects seamlessly to previous section */
+        }
+        
+        .Bookingrate{
+            display: flex; align-items: start; margin-top: 30px; background-color: #FFF; display: inline-flex; border-radius: 40px; padding: 10px
+        }
+        /* Background Clock Tower Image (Faint Overlay) */
+        .footer-bg-img {
+            position: absolute;
+            width: 100%;
+            opacity: 0.1; /* Very subtle */
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Giant Outlined Text at Bottom */
+        .footer-big-text {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 140px;
+            font-weight: 800;
+            white-space: nowrap;
+            z-index: 0;
+            opacity: 0.1;
+            color: transparent;
+            -webkit-text-stroke: 2px white; /* Creates the outline effect */
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        /* Main Content Container */
+        .footer-container {
+            position: relative;
+            z-index: 2; /* Sits above background */
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        /* Top Row: Logo & Socials */
+        .footer-top {
+            margin-top: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-logo img {
+            height: 50px;
+            width: auto;
+        }
+        
+        .footer-socials {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .social-label {
+            font-size: 16px;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+        
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            fill: white;
+            transition: transform 0.3s;
+        }
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* Middle Message */
+        .footer-message h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .footer-message p {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        /* Divider Line */
+        .footer-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+        
+        /* Bottom Copyright */
+        .footer-copyright {
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.6;
+            margin-bottom: 40px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .footer-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 30px;
+            }
+            
+            .footer-socials {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+        /* Responsive */
+        @media (max-width: 950px) {
+            .booking-section { justify-content: center; padding: 60px 10px; background-position: 70% center; }
+            .booking-container { align-items: center; }
+            .booking-heading { text-align: center; font-size: 42px; }
+            .booking-sub { text-align: center; }
+            .booking-card { width: 100%;padding: 20px; }
+            .contact-bar { flex-direction: column; gap: 20px; align-items: flex-start; width: 100%; padding: 20px; }
+        }
+        /* Mobile Responsive */
+        @media (max-width: 950px) {
+            .reviews-grid {
+                grid-template-columns: 1fr; /* Stack vertically */
+                max-width: 500px;
+            }
+            
+            .review-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .btn-outline {
+                justify-content: center;
+            }
+        }
+        /* Mobile Responsive */
+        @media (max-width: 950px) {
+            .explore-section { height: auto; padding: 60px 20px; }
+            .explore-grid { height: auto; display: flex; flex-direction: column; align-items: center; gap: 30px; }
+            .ex-circle { position: relative; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; width: 280px; height: 280px; }
+            .ex-5, .ex-6, .ex-7 { display: none; } /* Hide small circles on mobile */
+        }
+
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 950px) {
+            .email-link { display: none; }
+            .polaroid-card { width: 150px; }
+            .p-left-top { left: -20px; } .p-right { right: -20px; }
+            .host-container { flex-direction: column; gap: 40px; }
+            .host-content { text-align: center; }
+            .host-stats { justify-content: center; flex-wrap: wrap; }
+            .stat-item { border-left: none; padding: 0 15px; border-left: 2px solid #007BFF; }
+            
+            /* Highlights Tablet/Mobile */
+            .highlights-section { height: auto; flex-direction: column; gap: 40px; padding: 40px 20px; }
+            .h-card { position: relative; top: auto; left: auto; right: auto; bottom: auto; width: 100%; max-width: 400px; flex-direction: row !important; text-align: left !important; }
+            .h-card .h-text { padding-left: 0; padding-right: 0; }
+            .h-card::before { display: none; } /* Hide lines on mobile */
+            .highlights-center { order: -1; margin-bottom: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu, .right-section { display: none; }
+            .hero-content { padding-top: 70px;}
+            .hamburger { display: flex; margin-left: auto; }
+            .header-container { justify-content: flex-start; }
+            .mobile-menu-container.open { display: flex; }
+            .footstep-decor {opacity: 0.1;}
+            .stat-item {border-left: solid px #007BFF ;}
+            .hero-section { height: 500px; padding-top: 80px; }
+            .hero-overlay {background: linear-gradient(180deg, rgba(230,235,255,0.9) 50%, rgba(255,255,255,0) 50%);height: 1000px; }
+            .hero-title { font-size: 36px; }
+            .hero-subtitle {font-size: 14px; padding: 0px 40px;}
+            .yellow-tag {width: 160px;}
+            .check-list {padding-left: 2px;}
+            .polaroid-container { display: none; }
+            .about-title { font-size: 32px; }
+            .features-box { grid-template-columns: 1fr; padding: 40px 20px 20px 20px; }
+            .host-stats { gap: 15px; }
+            .stat-item { border-right: none; border-bottom: 1px solid #ddd; padding-bottom: 10px; width: 100%; }
+
+            /* Itinerary Mobile */
+            .t-card { flex-direction: column; text-align: center; }
+            .t-img { width: 100%; height: 180px; }
+            .t-meta { justify-content: center; }
+            .node-card { width: 100%; }
+            .footer-container {padding: 20px;}
+            .footer-bg-img {opacity: 0.1%;}
+            .booking-section {background-color: #FFF;}
+            .Bookingrate {display: flex; flex-direction: column; display: inline-flex; align-items: center; }
+
+        
+    </style>
+</head>
+<body>
+
+    <header class="header-container">
+        <nav class="nav-menu">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#itinerary" class="nav-link">Itinerary</a>
+            <a href="#review" class="nav-link">Review</a>
+        </nav>
+        <div class="logo-section">
+            <div class="logo-icon"> <img src="Assets/Logo.svg" alt="BlueCity" style="width: 136px;"></div> 
+        </div>
+        <div class="right-section">
+            <a href="mailto:Shivnarayan012@gmail.com" class="email-link">
+                <svg class="email-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                Shivnarayan012@gmail.com
+            </a>
+            <a href="https://forms.gle/Xd2FDKK2Go3pXho99" class="book-btn">
+                Book Tour
+                <div class="btn-circle">
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </div>
+            </a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </div>
+        <div class="mobile-menu-container" id="mobileMenu">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#itinerary" class="nav-link">Itinerary</a>
+            <a href="#review" class="nav-link">Review</a>
+            <a href="https://forms.gle/Xd2FDKK2Go3pXho99" class="book-btn">
+                Book Tour
+                <div class="btn-circle">
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag"><span class="dot"></span> The Blue City of Rajasthan</div>
+            <h1 class="hero-title">Discover the Magic of <span>Jodhpur</span></h1>
+            <p class="hero-subtitle">Walk with a local and uncover hidden treasures, rich stories, and the vibrant culture of the Blue City.</p>
+            <a href="https://forms.gle/Xd2FDKK2Go3pXho99" class="book-btn" style="margin-top: 10px;">
+                Book Tour
+                <div class="btn-circle">
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="about-section" id="about">
+        <div class="polaroid-container">
+            <div class="polaroid-card p-left-top"><img src="Assets/frameright.png" alt="Jodhpur Interior"></div>
+            <div class="polaroid-card p-right"><img src="Assets/frameleft.png" alt="Jodhpur Interior"></div>
+        </div>
+        <div class="about-content">
+            <span class="about-pill">About the Tour</span>
+            <h2 class="about-title">Led by a Local.<br><span class="blue-italic">Curated with Love.</span></h2>
+            <p class="about-desc">We are proud locals of Jodhpur, born and raised amidst its royal heritage and warm hospitality. Our aim is to share Jodhpur’s charm through stories, food, and history.</p>
+            <ul class="check-list">
+                <li class="check-item"><div class="check-icon"><img src="Assets/Check.svg" alt="check"></div> We love meeting people from across the globe</li>
+                <li class="check-item"><div class="check-icon"><img src="Assets/Check.svg" alt="check"></div> Every tour is warm, safe, and personal</li>
+                <li class="check-item"><div class="check-icon"><img src="Assets/Check.svg" alt="check"></div> It’s not just a walk — it’s a journey through living history</li>
+            </ul>
+        </div>
+        <div class="features-wrapper">
+            <div class="yellow-tag">Why Choose Us?</div>
+            <div class="features-box">
+                <div class="feature-item">
+                    <svg class="f-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <div class="f-text"><h4>Offbeat Stories</h4><p>Local legends & hidden gems</p></div>
+                </div>
+                <div class="feature-item">
+                    <svg class="f-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <div class="f-text"><h4>Small Groups</h4><p>Personal attention & safety</p></div>
+                </div>
+                <div class="feature-item">
+                    <svg class="f-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <div class="f-text"><h4>Photo Spots</h4><p>Best angles for the Blue City</p></div>
+                </div>
+                <div class="feature-item">
+                    <svg class="f-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    <div class="f-text"><h4>Heritage & Fun</h4><p>A mix of history, food & culture</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="host-section">
+        <div class="host-container">
+            <div class="host-image-wrapper">
+                 <img src="Assets/papaImage.png" alt="Shiv - Your Host" class="host-img">
+            </div>
+            <div class="host-content">
+                <span class="about-pill">Your Local Host</span>
+                <h2 class="about-title">Khamma Ghani Saa! I'm <span class="blue-italic">Shiv</span></h2>
+                <p class="about-desc">
+                    "Born and raised in the winding blue lanes of the old city, Jodhpur isn’t just my home—it’s my heritage. I started these walks to bridge the gap between a tourist’s checklist and a local’s life."
+                </p>
+                <p class="about-desc">
+                    My passion is storytelling. Beyond the dates and architecture, I want to share the legends of the Rathore clan, the secrets of the indigo paint, and the best spot for Mirchi Vada that isn’t on Google Maps. When you walk with me, you’re not just a visitor; you’re a guest in my city.
+                </p>
+                <div class="host-stats">
+                    <div class="stat-item">
+                        <h3 class="stat-number">4+ Years</h3>
+                        <p class="stat-label">Guiding Experience</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="stat-number">English & Hindi</h3>
+                        <p class="stat-label">Fluent Communication</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3 class="stat-number">40+</h3>
+                        <p class="stat-label">Happy Clients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="itinerary-section" id="itinerary" style="background-color: #EEF2FF;">
+        <img src="Assets/jodhpurleft.svg" alt="f" style="position: absolute; left: 0px; bottom: 0; width: 20%; pointer-events: none;">
+        <img src="Assets/jodhpurright.svg" alt="f" style="position: absolute; right: 0px; top: 100px; width: 20%; pointer-events: none;">
+        
+        <img src="Assets/footsteps.svg" class="footstep-decor" style="position: absolute; top: 260px; left: 28%; height: 1330px;">
+        <img src="Assets/footsteps.svg" class="footstep-decor" style="position: absolute; top: 260px; right: 28%;height: 1330px; ">
+        <div class="itinerary-header">
+            <span class="about-pill" style="margin-bottom: 5px;">About the journey</span>
+            <h2>Tour <span>Itinerary</span></h2>
+            <p>A journey through time and culture</p>
+        </div>
+
+        <div class="timeline-container">
+            
+            <div class="node-card">
+                <div class="node-icon-box node-start">
+                    <img src="Assets/mdi_location.svg" alt="start" style="width: 50%;">
+                    Start
+                </div>
+                <div class="node-text">
+                    <h4>Meeting Point: Sagar And Company</h4>
+                    <p>77 Sardar Market, near Clock Tower.</p>
+                </div>
+            </div>
+
+            <div class="timeline-connector"></div>
+
+            <div class="t-card">
+                <div class="t-img"><img src="Assets/CL.png" alt="Clock Tower"></div>
+                <div class="t-content">
+                    <div class="t-title">Clock Tower Market</div>
+                    <div class="t-desc">Bustling local bazaar filled with spices, crafts, and history. Symbol of Jodhpur's urban growth.</div>
+                    <div class="t-meta">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        20 mins
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-connector"></div>
+
+            <div class="t-card">
+                <div class="t-img"><img src="Assets/toor.png" alt="Stepwell"></div>
+                <div class="t-content">
+                    <div class="t-title">Toorji Ka Jhalra (Stepwell)</div>
+                    <div class="t-desc">An architectural marvel featuring intricate sandstone carvings and a submerged pool of water.</div>
+                    <div class="t-meta">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        20 mins
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-connector"></div>
+
+            <div class="t-card">
+                <div class="t-img"><img src="Assets/CITY.png" alt="Blue City"></div>
+                <div class="t-content">
+                    <div class="t-title">City Police</div>
+                    <div class="t-desc">The primary "City Police" location in the heart of the old city. A landmark for local navigation.</div>
+                    <div class="t-meta">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        20 mins
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-connector"></div>
+
+            <div class="t-card">
+                <div class="t-img"><img src="Assets/pac.png" alt="Hills"></div>
+                <div class="t-content">
+                    <div class="t-title">Pachetiya Hills</div>
+                    <div class="t-desc">A popular spot for travelers to witness breathtaking sunrises and sunsets while exploring narrow lanes.</div>
+                    <div class="t-meta">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        20 mins
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-connector"></div>
+
+            <div class="t-card">
+                <div class="t-img"><img src="Assets/nav.png" alt="Navchowkiya"></div>
+                <div class="t-content">
+                    <div class="t-title">Navchowkiya</div>
+                    <div class="t-desc">Ancient neighborhood designed for royal courtiers. Famous for blue-painted homes.</div>
+                    <div class="t-meta">
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                        20 mins
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-connector"></div>
+
+            <div class="node-card">
+                <div class="node-icon-box node-end">
+                    <img src="Assets/lets-icons_done-ring-round.svg" alt="done" style="width: 50%;">
+                    FINISH
+                </div>
+                <div class="node-text end">
+                    <h4>Tour Ends</h4>
+                    <p>Back at Sagar And Company, near Clock Tower.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="highlights-section">
+        <div class="highlights-center"> 
+            <span class="about-pill">Experience the Best</span>
+            <h2 class="hero-title" style="font-size: 48px;">Highlights of <br><span>Jodhpur</span></h2>
+            <a href="https://forms.gle/Xd2FDKK2Go3pXho99" class="book-btn" style="margin-top: 20px;">
+                Book Tour
+                <div class="btn-circle">
+                    <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </div>
+            </a>
+        </div>
+
+        <div class="h-card h-c1">
+            <div class="h-img-circle"><img src="Assets/bluecity.png" alt="Blue City"></div>
+            <div class="h-text">Blue Old City</div>
+        </div>
+
+        <div class="h-card h-c2">
+            <div class="h-img-circle"><img src="Assets/mirchi.png" alt="Street Food"></div>
+            <div class="h-text">Famous Street Food</div>
+        </div>
+
+        <div class="h-card h-c3">
+            <div class="h-img-circle"><img src="Assets/local.png" alt="Markets"></div>
+            <div class="h-text">Local Markets</div>
+        </div>
+
+        <div class="h-card h-c4">
+            <div class="h-img-circle"><img src="Assets/meha.png" alt="Mehrangarh"></div>
+            <div class="h-text">Mehrangarh Fort</div>
+        </div>
+
+        <div class="h-card h-c5">
+            <div class="h-img-circle"><img src="Assets/sunset.png" alt="Sunset"></div>
+            <div class="h-text">Sunset Points</div>
+        </div>
+
+        <div class="h-card h-c6">
+            <div class="h-img-circle"><img src="Assets/temp.png" alt="Temples"></div>
+            <div class="h-text">Temples & Stepwells</div>
+        </div>
+
+    </section>
+    
+    <section class="explore-section">
+        <div class="explore-map-bg"><img src="Assets/mapbluesection.svg" alt="Map" style="width: 50%; transform: translateY(400px);"></div>
+        
+        <div class="explore-header">
+            <span class="explore-pill">Places you'll remember</span>
+            <h2>More to Explore on <span>Your Own</span></h2>
+            <p>Once the tour ends, here are more gems you can visit. We're happy to help with directions!</p>
+        </div>
+    
+        <div class="explore-grid">
+            <div class="explore-grid">
+    
+            </div>
+            <a href="#book-tour" class="ex-circle ex-1">
+                <img src="Assets/umm.png" alt="Ummed Bhawan">
+                <div class="ex-label">Ummed Bhawan <span><img src="Assets/uparrow.svg" alt="up"></span></div>
+            </a>
+            
+            <a href="#book-tour" class="ex-circle ex-2">
+                <img src="Assets/meh.png" alt="Mehrangarh">
+                <div class="ex-label">Mehrangarh Fort <span><img src="Assets/uparrow.svg" alt="up"></span></div>
+            </a>
+        
+            <a href="#book-tour" class="ex-circle ex-3">
+                <img src="Assets/jas.png" alt="Jaswant Thada">
+                <div class="ex-label">Jaswant Thada <span><img src="Assets/uparrow.svg" alt="up"></span></div>
+            </a>
+        
+            <a href="#book-tour" class="ex-circle ex-4">
+                <img src="Assets/man.png" alt="Mandore">
+                <div class="ex-label">Mandore Garden <span><img src="Assets/uparrow.svg" alt="up"></span></div>
+            </a>
+        
+            <div class="ex-circle ex-5"><img src="Assets/dokr.png" alt="Decor"></div>
+            <div class="ex-circle ex-6"><img src="Assets/lugai.png" alt="Decor"></div>
+            <div class="ex-circle ex-7"><img src="Assets/tan.png" alt="Decor"></div>
+        </div>
+    </section>
+
+    <section class="reviews-section" id="review">
+    <div class="reviews-header">
+        <span class="about-pill" style="margin-bottom: 5px;">What Our Guests Say</span>
+        <h2>Lots of Guests <br><span>Already Love Us</span></h2>
+    </div>
+
+    <div class="reviews-grid">
+        
+        <div class="review-card">
+            <div class="stars">
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </div>
+            <p class="review-text">
+                "Shiv is so passionate about his city and provides the most fascinating walk through the old and Blue City of Jodhpur.
+                We had so many questions and requests and he was so passionate. Took us to the best spots to get pictures and introduced us to the locals."
+            </p>
+            <div class="reviewer-profile">
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f6/ea/74/default-avatar-2020-68.jpg?w=300&h=-1&s=1" alt="User" class="reviewer-img">
+                <div class="reviewer-info">
+                    <h4>Naveen</h4>
+                    <span>Mumbai, India</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-card">
+            <div class="stars">
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </div>
+            <p class="review-text">
+                "Amazing tour, he took us to the old fort of the city ando guided us to a beautiful restaurant, the lamb dish was espectacular, then he took us to a old jewels shop where you can find the best quality in silver and stones and finally."
+            </p>
+            <div class="reviewer-profile">
+                <img src="https://images.pexels.com/photos/31660113/pexels-photo-31660113.jpeg" alt="User" class="reviewer-img">
+                <div class="reviewer-info">
+                    <h4>Jose Maria J</h4>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-card">
+            <div class="stars">
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            </div>
+            <p class="review-text">
+                "Highly recommended! We saw the best sunset spots and learned so much history about the Rathore clan. Thank you for the wonderful memories!"
+            </p>
+            <div class="reviewer-profile">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100" alt="User" class="reviewer-img">
+                <div class="reviewer-info">
+                    <h4>Priya Sharma</h4>
+                    <span>Delhi, India</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="review-actions">
+        <a href="https://www.tripadvisor.com/Attraction_Review-g297668-d26725538-Reviews-Jodhpur_Bluecity_Walk_Tour-Jodhpur_Jodhpur_District_Rajasthan.html" target="_blank" class="btn-outline btn-write">
+            <svg class="icon-small" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            Write a review
+        </a>
+        
+        <a href="https://www.tripadvisor.com/Attraction_Review-g297668-d26725538-Reviews-Jodhpur_Bluecity_Walk_Tour-Jodhpur_Jodhpur_District_Rajasthan.html" target="_blank" class="btn-outline btn-view">
+            View More Reviews
+            <svg class="icon-small" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+    </div>
+
+   </section>
+
+   <section class="booking-section" id="book-tour">
+    <div class="booking-container">
+        
+        <div>
+            <h2 class="booking-heading">No need to <span>Pay Now</span></h2>
+            <p class="booking-sub">Just book your tour and pay when we meet at the starting point.</p>
+        </div>
+
+        <div class="booking-card">
+            <div class="booking-pill">How to Book</div>
+            
+            <div class="stepper">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-text">Click on book a tour button.</div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-text">Fill the form and select your time and date on Calendly.</div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-text">That's it! You will get a confirmation message on your Mail.</div>
+                </div>
+            </div>
+            <div class="Bookingrate">
+                <a href="https://forms.gle/Xd2FDKK2Go3pXho99" class="book-btn" style=" width: fit-content;">
+                    Book Tour
+                    <div class="btn-circle">
+                        <svg class="arrow-icon" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </div>
+                </a>
+                <div style=" background-color: #FFF; padding: 4px 20px 4px 12px; display: inline-block; font-size: 12px;font-weight: 500; border-radius: 40px;">Price
+                <Div style="display: flex; align-items: center; gap: 6px; ">
+                <div style="font-size: 18px; font-weight: 600; color: #007BFF;">₹999/-</div>
+                <div>Per Person</div>
+                </Div>
+            </div>
+
+            </div>
+        </div>
+
+        <div class="contact-bar">
+            <div class="c-item">
+                <span class="c-label">Call & Chat on WhatsApp</span>
+                <a href="https://wa.me/919413249322" class="c-value">
+                    <img src="Assets/mingcute_whatsapp-fill.svg" alt="WhatsApp">
+                    +91 94132 49322
+                </a>
+            </div>
+            
+            <div class="c-item">
+                <span class="c-label">Mail Us</span>
+                <a href="mailto:Shivnarayan012@gmail.com" class="c-value">
+                    <img src="Assets/ion_mail.svg" alt="mailpp">
+                    Shivnarayan012@gmail.com
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<footer class="footer-section">
+    
+    <img src="Assets/footerimage.png" alt="Clock Tower Bg" class="footer-bg-img">
+    <!-- <div class="footer-big-text">Blue City Walk Tour</div> -->
+
+    <div class="footer-container">
+        
+        <div class="footer-top">
+            <div class="footer-logo">
+                <img src="Assets/Logo.svg" alt="Blue City Walk Tour" style="filter: brightness(0) invert(1);"> 
+            </div>
+            
+            <div class="footer-socials">
+                <span class="social-label">Follow us on</span>
+                
+                <a href="#">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H7v-3h3v-2.27c0-2.96 1.77-4.57 4.43-4.57 1.27 0 2.59.23 2.59.23v2.85h-1.46c-1.47 0-1.92.91-1.92 1.84V12h3.2l-.51 3h-2.69v6.8C18.56 20.87 22 16.84 22 12z"/></svg>
+                </a>
+                
+                <a href="#">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-message">
+            <h3>Thank you for choosing to walk the Blue City with us...</h3>
+            <p>We hope to see you soon in Jodhpur!</p>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-copyright">
+            © 2025 Bluecity Walk Tour. Designed with love in Rajasthan.
+        </div>
+
+    </div>
+</footer>
+
+
+
+
+
+    
+
+<script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+        }
+    </script>
+
+</body>
+</html>
